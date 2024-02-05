@@ -22,10 +22,11 @@ export default function Navigation({ user }: NavigationProps) {
             className="h-auto p-0"
             variant="link"
             onClick={() => logOut()}
+            aria-label="Log out"
           >
             <LogOut size={16} />
           </Button>
-        : <Link href="/login">
+        : <Link href="/login" aria-label="Log in">
             <LogIn size={16} />
           </Link>
         }
