@@ -6,14 +6,15 @@ import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
-export type State = {
+export type ActionState = {
+  type?: 'info' | 'error'
   message?: string
 }
 
 export async function logIn(
-  _: State,
+  _: ActionState,
   { email, password }: z.infer<typeof logInSchema>,
-) {
+): Promise<ActionState> {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
@@ -24,16 +25,16 @@ export async function logIn(
 
   if (error) {
     console.error(error)
-    return { message: 'Could not authenticate user' }
+    return { type: 'error', message: 'Could not authenticate user.' }
   }
 
   redirect('/')
 }
 
 export async function signUp(
-  _: State,
+  _: ActionState,
   { email, password }: z.infer<typeof logInSchema>,
-) {
+): Promise<ActionState> {
   const origin = headers().get('origin')
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
@@ -48,8 +49,8 @@ export async function signUp(
 
   if (error) {
     console.error(error)
-    return { message: 'Could not register user' }
+    return { type: 'error', message: 'Could not register user.' }
   }
 
-  return { message: 'Check your email to finish signing up' }
+  return { type: 'info', message: 'Check your email to finish signing up.' }
 }

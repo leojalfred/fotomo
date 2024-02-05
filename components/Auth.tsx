@@ -1,5 +1,6 @@
 'use client'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -12,11 +13,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { logIn, signUp } from '@/lib/actions'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertCircle } from 'lucide-react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
-const initialState = { message: '' }
 
 export const logInSchema = z.object({
   email: z.string().email(),
@@ -24,7 +24,7 @@ export const logInSchema = z.object({
 })
 
 export function LogInForm() {
-  const [state, action] = useFormState(logIn, initialState)
+  const [state, action] = useFormState(logIn, { message: '' })
   const form = useForm<z.infer<typeof logInSchema>>({
     resolver: zodResolver(logInSchema),
     defaultValues: {
@@ -35,7 +35,7 @@ export function LogInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(action)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(action)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -71,9 +71,11 @@ export function LogInForm() {
         </Button>
       </form>
       {state.message && (
-        <p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
-          {state.message}
-        </p>
+        <Alert className="mt-4" variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{state.message}</AlertDescription>
+        </Alert>
       )}
     </Form>
   )
@@ -89,7 +91,7 @@ export const signUpSchema = logInSchema
   })
 
 export function SignUpForm() {
-  const [state, action] = useFormState(signUp, initialState)
+  const [state, action] = useFormState(signUp, { type: 'info', message: '' })
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -146,13 +148,20 @@ export function SignUpForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Register
+          Sign Up
         </Button>
       </form>
       {state.message && (
-        <p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
-          {state.message}
-        </p>
+        <Alert
+          className="mt-4"
+          variant={state.type === 'error' ? 'destructive' : 'default'}
+        >
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>
+            {state.type === 'error' ? 'Error' : 'Heads up!'}
+          </AlertTitle>
+          <AlertDescription>{state.message}</AlertDescription>
+        </Alert>
       )}
     </Form>
   )
