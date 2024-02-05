@@ -1,6 +1,6 @@
 'use server'
 
-import { logInSchema } from '@/components/Auth'
+import { logInSchema, signUpSchema } from '@/components/Auth'
 import { createClient } from '@/utils/supabase/server'
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -13,7 +13,7 @@ export type ActionState = {
 
 export async function signUp(
   _: ActionState,
-  { email, password }: z.infer<typeof logInSchema>,
+  { email, password }: z.infer<typeof signUpSchema>,
 ): Promise<ActionState> {
   const origin = headers().get('origin')
   const cookieStore = cookies()
