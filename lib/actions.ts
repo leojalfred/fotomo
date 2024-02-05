@@ -11,26 +11,6 @@ export type ActionState = {
   message?: string
 }
 
-export async function logIn(
-  _: ActionState,
-  { email, password }: z.infer<typeof logInSchema>,
-): Promise<ActionState> {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    console.error(error)
-    return { type: 'error', message: 'Could not authenticate user.' }
-  }
-
-  redirect('/')
-}
-
 export async function signUp(
   _: ActionState,
   { email, password }: z.infer<typeof logInSchema>,
@@ -53,4 +33,32 @@ export async function signUp(
   }
 
   return { type: 'info', message: 'Check your email to finish signing up.' }
+}
+
+export async function logIn(
+  _: ActionState,
+  { email, password }: z.infer<typeof logInSchema>,
+): Promise<ActionState> {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  if (error) {
+    console.error(error)
+    return { type: 'error', message: 'Could not authenticate user.' }
+  }
+
+  redirect('/')
+}
+
+export async function logOut() {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+  await supabase.auth.signOut()
+
+  redirect('/login')
 }

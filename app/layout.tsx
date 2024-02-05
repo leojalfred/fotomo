@@ -1,6 +1,9 @@
 import './globals.css'
+import Navigation from '@/components/Navigation'
+import { createClient } from '@/utils/supabase/server'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
+import { cookies } from 'next/headers'
 
 const defaultUrl =
   process.env.VERCEL_URL ?
@@ -13,14 +16,21 @@ export const metadata = {
   description: 'The fastest way to build apps with Next.js and Supabase',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
+        <Navigation user={user} />
         {children}
         <SpeedInsights />
       </body>
