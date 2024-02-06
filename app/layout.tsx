@@ -12,8 +12,8 @@ const defaultUrl =
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
+  title: 'Fotomo',
+  description: 'Keep your memories safe, organized, and accessible',
 }
 
 export default async function RootLayout({
