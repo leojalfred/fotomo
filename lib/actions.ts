@@ -1,6 +1,6 @@
 'use server'
 
-import { logInSchema, signUpSchema } from '@/components/Auth'
+import { logInSchema, signUpSchema } from '@/lib/schemas'
 import { createClient } from '@/utils/supabase/server'
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -13,11 +13,18 @@ export type ActionState = {
 
 export async function signUp(
   _: ActionState,
-  { email, password }: z.infer<typeof signUpSchema>,
+  credentials: z.infer<typeof signUpSchema>,
 ): Promise<ActionState> {
+  const parsedCredentials = signUpSchema.safeParse(credentials)
+  if (!parsedCredentials.success) {
+    console.error(parsedCredentials.error)
+    return { type: 'error', message: 'Could not register user.' }
+  }
+
   const origin = headers().get('origin')
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+  const { email, password } = parsedCredentials.data
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -37,10 +44,17 @@ export async function signUp(
 
 export async function logIn(
   _: ActionState,
-  { email, password }: z.infer<typeof logInSchema>,
+  credentials: z.infer<typeof logInSchema>,
 ): Promise<ActionState> {
+  const parsedCredentials = logInSchema.safeParse(credentials)
+  if (!parsedCredentials.success) {
+    console.error(parsedCredentials.error)
+    return { type: 'error', message: 'Could not authenticate user.' }
+  }
+
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+  const { email, password } = parsedCredentials.data
 
   const { error } = await supabase.auth.signInWithPassword({
     email,

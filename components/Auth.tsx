@@ -12,16 +12,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { logIn, signUp } from '@/lib/actions'
+import { logInSchema, signUpSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle } from 'lucide-react'
+import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
-export const logInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
 
 export function LogInForm() {
   const [state, action] = useFormState(logIn, { message: '' })
@@ -81,15 +78,6 @@ export function LogInForm() {
   )
 }
 
-export const signUpSchema = logInSchema
-  .extend({
-    confirmPassword: z.string().min(8),
-  })
-  .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: 'Password and Confirm Password must match',
-    path: ['confirmPassword'],
-  })
-
 export function SignUpForm() {
   const [state, action] = useFormState(signUp, { type: 'info', message: '' })
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -100,6 +88,10 @@ export function SignUpForm() {
       confirmPassword: '',
     },
   })
+
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) form.reset()
+  }, [form, form.formState.isSubmitSuccessful])
 
   return (
     <Form {...form}>
