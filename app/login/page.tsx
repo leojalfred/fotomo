@@ -1,8 +1,18 @@
 import { LogInForm } from '@/components/Auth'
+import { createClient } from '@/utils/supabase/server'
 import { MoveRight } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
-export default function Login() {
+export default async function Login() {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  if (session) redirect('/')
+
   return (
     <div className="flex min-h-dvh flex-col items-center">
       <main className="flex w-full flex-1 flex-col justify-center px-8 duration-200 animate-in fade-in sm:max-w-md">

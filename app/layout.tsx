@@ -24,13 +24,13 @@ export default async function RootLayout({
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <Navigation user={user} />
+        <Navigation session={session} />
         {children}
         <SpeedInsights />
       </body>
