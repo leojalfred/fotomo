@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { logOut } from '@/lib/actions'
 import { type User } from '@supabase/supabase-js'
-import { LogOut, LogIn } from 'lucide-react'
+import { LogIn, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
 interface NavigationProps {
@@ -19,15 +19,18 @@ export default function Navigation({ user }: NavigationProps) {
         </h2>
         {user ?
           <Button
-            className="h-auto p-0"
-            variant="link"
+            variant="outline"
             onClick={() => logOut()}
             aria-label="Log out"
           >
-            <LogOut size={16} />
+            <LogOut className="mr-2" size={16} /> Log out
           </Button>
-        : <Link href="/login" aria-label="Log in">
-            <LogIn size={16} />
+        : <Link
+            className={buttonVariants({ variant: 'outline' })}
+            href="/login"
+            aria-label="Log in"
+          >
+            <LogIn className="mr-2" size={16} /> Log in
           </Link>
         }
       </div>
