@@ -9,9 +9,9 @@ export default async function Login() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
-  if (session) redirect('/')
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (user) redirect('/')
 
   return (
     <div className="flex min-h-dvh flex-col items-center">
