@@ -43,6 +43,7 @@ export function LogInForm() {
                 <Input
                   type="email"
                   placeholder="example@domain.com"
+                  autoComplete="email"
                   {...field}
                 />
               </FormControl>
@@ -57,7 +58,12 @@ export function LogInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,6 +112,7 @@ export function SignUpForm() {
                 <Input
                   type="email"
                   placeholder="example@domain.com"
+                  autoComplete="email"
                   {...field}
                 />
               </FormControl>
@@ -120,7 +127,12 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -133,7 +145,12 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
