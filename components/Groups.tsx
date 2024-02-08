@@ -101,7 +101,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
             name="accessLevel"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Choose privacy</FormLabel>
+                <FormLabel>View access level</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -131,7 +131,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
             name="members"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Add members</FormLabel>
+                <FormLabel>Members</FormLabel>
                 <MultiSelect
                   selected={field.value}
                   options={[
@@ -166,6 +166,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
                   ]}
                   {...field}
                   className="sm:w-[510px]"
+                  placeholder="Add members"
                   ref={null}
                 />
                 <FormMessage />

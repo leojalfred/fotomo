@@ -27,6 +27,7 @@ interface MultiSelectProps {
   selected: string[]
   onChange: React.Dispatch<React.SetStateAction<string[]>>
   className?: string
+  placeholder?: string
   ref?: React.Ref<HTMLButtonElement>
 }
 
@@ -35,6 +36,7 @@ function MultiSelect({
   selected,
   onChange,
   className,
+  placeholder,
   ...props
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false)
@@ -52,7 +54,7 @@ function MultiSelect({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-full justify-between active:translate-y-0 ${selected.length > 1 ? 'h-full' : 'h-10'}`}
+          className={`w-full justify-between px-3 active:translate-y-0 ${selected.length > 1 ? 'h-full' : 'h-10'}`}
           onClick={() => setOpen(!open)}
           id={formItemId}
           aria-describedby={
@@ -63,6 +65,9 @@ function MultiSelect({
           aria-invalid={!!error}
         >
           <div className="flex flex-wrap gap-1">
+            {selected.length === 0 && placeholder && (
+              <span className="font-normal text-zinc-400">{placeholder}</span>
+            )}
             {selected.map((item) => (
               <Badge
                 variant="secondary"
