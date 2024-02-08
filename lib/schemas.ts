@@ -13,3 +13,10 @@ export const signUpSchema = logInSchema
     message: 'Password and Confirm Password must match',
     path: ['confirmPassword'],
   })
+
+export const createGroupSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  accessLevel: z.literal('private').or(z.literal('public')),
+  members: z.array(z.string()),
+})

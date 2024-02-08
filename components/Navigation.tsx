@@ -36,7 +36,7 @@ export default function Navigation({ session }: NavigationProps) {
   })
 
   return (
-    <nav className="fixed top-0 flex h-16 w-full justify-center border-b border-b-foreground/10 bg-black/50 backdrop-blur-sm">
+    <nav className="bg-zinc/50 fixed top-0 flex h-16 w-full justify-center border-b border-b-foreground/10 backdrop-blur-sm">
       <div className="flex w-full max-w-6xl items-center justify-between p-3 text-sm">
         <div className="flex items-center">
           <h2 className="mr-4 text-xl sm:mr-12">

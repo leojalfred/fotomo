@@ -1,7 +1,8 @@
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { isAuthorized } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function Groups() {
@@ -17,10 +18,13 @@ export default async function Groups() {
           Groups help keep your memories safe, organized, and accessible. Create
           a group to get started.
         </p>
-        <Button className="w-auto">
+        <Link
+          className={buttonVariants({ variant: 'default' })}
+          href="/groups/new"
+        >
           <Plus className="mr-2" size={16} />
           Create new group
-        </Button>
+        </Link>
       </div>
     </div>
   )
