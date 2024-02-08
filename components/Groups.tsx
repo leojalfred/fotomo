@@ -46,16 +46,16 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
       <div className="flex items-center space-x-2">
         <div>
           <Image
-            className="rounded-full bg-zinc-800 p-1"
+            className="rounded-full bg-primary"
             src="/avatar.svg"
             alt="Placeholder avatar"
-            width={48}
-            height={48}
+            width={40}
+            height={40}
             priority={true}
           />
         </div>
         <div>
-          <p className="mb-0.5 text-sm">{user.email}</p>
+          <p className="text-sm">{user.email}</p>
           <p className="text-sm text-zinc-400">Admin</p>
         </div>
       </div>
