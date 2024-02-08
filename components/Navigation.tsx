@@ -22,7 +22,7 @@ export default function Navigation({ session }: NavigationProps) {
     },
   ]
   const links = linkData.map(({ href, text }, index) => {
-    const isActive = pathname === href
+    const isActive = pathname.includes(href)
     const classes = cn(
       'text-zinc-400 transition-colors hover:text-white',
       isActive && 'text-white',
