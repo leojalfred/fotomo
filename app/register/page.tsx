@@ -1,17 +1,12 @@
 import { SignUpForm } from '@/components/Auth'
-import { createClient } from '@/utils/supabase/server'
+import { isAuthorized } from '@/lib/utils'
 import { MoveRight } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function Register() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-  if (session) redirect('/')
+  if (await isAuthorized(cookies())) redirect('/')
 
   return (
     <div className="flex min-h-dvh flex-col items-center">

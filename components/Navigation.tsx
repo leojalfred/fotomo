@@ -36,8 +36,8 @@ export default function Navigation({ session }: NavigationProps) {
   })
 
   return (
-    <nav className="fixed top-0 flex h-16 w-full justify-center border-b border-b-foreground/10">
-      <div className="flex w-full max-w-4xl items-center justify-between p-3 text-sm">
+    <nav className="fixed top-0 flex h-16 w-full justify-center border-b border-b-foreground/10 bg-black/50 backdrop-blur-sm">
+      <div className="flex w-full max-w-6xl items-center justify-between p-3 text-sm">
         <div className="flex items-center">
           <h2 className="mr-4 text-xl sm:mr-12">
             <Link href="/">Fotomo</Link>
@@ -50,14 +50,14 @@ export default function Navigation({ session }: NavigationProps) {
             onClick={() => logOut()}
             aria-label="Log out"
           >
-            <LogOut className="mr-2" size={16} /> Log Out
+            <LogOut className="mr-2" size={16} /> Log out
           </Button>
         : <Link
             className={buttonVariants({ variant: 'outline' })}
             href="/login"
             aria-label="Log in"
           >
-            <LogIn className="mr-2" size={16} /> Log In
+            <LogIn className="mr-2" size={16} /> Log in
           </Link>
         }
       </div>
