@@ -3,16 +3,15 @@
 import { Button, buttonVariants } from '@/components/ui/button'
 import { logOut } from '@/lib/actions'
 import { cn } from '@/lib/utils'
-import { type Session } from '@supabase/supabase-js'
 import { LogIn, LogOut } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 interface NavigationProps {
-  session: Session | null
+  isAuthenticated: boolean
 }
 
-export default function Navigation({ session }: NavigationProps) {
+export default function Navigation({ isAuthenticated }: NavigationProps) {
   const pathname = usePathname()
 
   const linkData = [
@@ -44,7 +43,7 @@ export default function Navigation({ session }: NavigationProps) {
           </h2>
           <div className="space-x-4 sm:space-x-6">{links}</div>
         </div>
-        {session ?
+        {isAuthenticated ?
           <Button
             variant="outline"
             onClick={() => logOut()}

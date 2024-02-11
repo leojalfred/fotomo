@@ -1,10 +1,9 @@
 import './globals.css'
 import Navigation from '@/components/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { getSession } from '@/data/session'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
-import { cookies } from 'next/headers'
 
 const defaultUrl =
   process.env.VERCEL_URL ?
@@ -22,16 +21,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const { isAuthenticated } = await getSession()
 
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <Navigation session={session} />
+        <Navigation isAuthenticated={isAuthenticated} />
         {children}
         <SpeedInsights />
         <Analytics />

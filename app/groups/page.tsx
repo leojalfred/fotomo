@@ -1,13 +1,13 @@
 import { buttonVariants } from '@/components/ui/button'
 import { Container } from '@/components/ui/layout'
-import { isAuthorized } from '@/lib/utils'
+import { getSession } from '@/data/session'
 import { Plus } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function Groups() {
-  if (!(await isAuthorized(cookies()))) redirect('/login')
+  const { isAuthenticated } = await getSession()
+  if (!isAuthenticated) redirect('/login')
 
   return (
     <Container className="items-center space-y-6 text-center">
