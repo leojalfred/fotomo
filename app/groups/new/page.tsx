@@ -12,11 +12,8 @@ export default async function Groups() {
   if (!user) redirect('/login')
 
   return (
-    <div className="flex min-h-dvh flex-col items-center">
-      <main className="flex w-full flex-1 flex-col justify-center px-8 duration-200 animate-in fade-in sm:max-w-md">
-        <h1 className="mb-8 text-center text-2xl font-semibold tracking-tight lg:text-3xl">
-          Create a new group
-        </h1>
+    <div className="flex min-h-dvh flex-col items-center pt-16">
+      <main className="flex w-full max-w-md flex-1 flex-col justify-center p-4 duration-200 animate-in fade-in sm:p-8">
         <CreateGroupForm user={user} />
       </main>
     </div>

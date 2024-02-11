@@ -18,7 +18,7 @@ export async function signUp(
   const parsedCredentials = signUpSchema.safeParse(credentials)
   if (!parsedCredentials.success) {
     console.error(parsedCredentials.error)
-    return { type: 'error', message: 'Could not register user.' }
+    return { type: 'error', message: 'Could not register user' }
   }
 
   const origin = headers().get('origin')
@@ -36,10 +36,10 @@ export async function signUp(
 
   if (error) {
     console.error(error)
-    return { type: 'error', message: 'Could not register user.' }
+    return { type: 'error', message: 'Could not register user' }
   }
 
-  return { type: 'info', message: 'Check your email to finish signing up.' }
+  return { type: 'info', message: 'Check your email to finish signing up' }
 }
 
 export async function logIn(
@@ -49,7 +49,7 @@ export async function logIn(
   const parsedCredentials = logInSchema.safeParse(credentials)
   if (!parsedCredentials.success) {
     console.error(parsedCredentials.error)
-    return { type: 'error', message: 'Could not authenticate user.' }
+    return { type: 'error', message: 'Could not authenticate user' }
   }
 
   const cookieStore = cookies()
@@ -63,7 +63,7 @@ export async function logIn(
 
   if (error) {
     console.error(error)
-    return { type: 'error', message: 'Could not authenticate user.' }
+    return { type: 'error', message: 'Could not authenticate user' }
   }
 
   redirect('/')

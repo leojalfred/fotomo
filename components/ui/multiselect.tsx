@@ -66,7 +66,9 @@ function MultiSelect({
         >
           <div className="flex flex-wrap gap-1">
             {selected.length === 0 && placeholder && (
-              <span className="font-normal text-zinc-400">{placeholder}</span>
+              <span className="font-normal text-muted-foreground">
+                {placeholder}
+              </span>
             )}
             {selected.map((item) => (
               <Badge

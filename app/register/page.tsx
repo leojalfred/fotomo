@@ -9,22 +9,10 @@ export default async function Register() {
   if (await isAuthorized(cookies())) redirect('/')
 
   return (
-    <div className="flex min-h-dvh flex-col items-center">
-      <div className="flex w-full flex-1 flex-col justify-center px-8 duration-200 animate-in fade-in sm:max-w-md">
-        <h1 className="mb-8 text-center text-2xl font-semibold tracking-tight lg:text-3xl">
-          Sign Up
-        </h1>
+    <div className="flex min-h-dvh flex-col items-center pt-16">
+      <main className="flex w-full max-w-md flex-1 flex-col justify-center p-4 duration-200 animate-in fade-in sm:p-8">
         <SignUpForm />
-        <p className="mt-8 text-center text-sm text-zinc-400">
-          Have an account?{' '}
-          <Link
-            href="/login"
-            className="inline-flex items-center transition-colors hover:text-white"
-          >
-            Log in <MoveRight className="ml-1" size={16} />
-          </Link>
-        </p>
-      </div>
+      </main>
     </div>
   )
 }
