@@ -1,6 +1,7 @@
 import './globals.css'
 import Navigation from '@/components/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import { cookies } from 'next/headers'
@@ -33,6 +34,7 @@ export default async function RootLayout({
         <Navigation session={session} />
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
