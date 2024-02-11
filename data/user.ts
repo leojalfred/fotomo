@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
+import 'server-only'
 
 export interface UserDTO {
   email: string | undefined
