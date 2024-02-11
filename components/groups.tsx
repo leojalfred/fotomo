@@ -19,15 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { UserDTO } from '@/data/user'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface CreateGroupFormProps {
-  user: User
+  user: UserDTO
 }
 
 export function CreateGroupForm({ user }: CreateGroupFormProps) {

@@ -1,15 +1,10 @@
 import { CreateGroupForm } from '@/components/groups'
 import { Container } from '@/components/ui/layout'
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+import { getUser } from '@/data/user'
 import { redirect } from 'next/navigation'
 
 export default async function Groups() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getUser()
   if (!user) redirect('/login')
 
   return (
