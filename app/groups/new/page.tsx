@@ -1,4 +1,4 @@
-import { CreateGroupForm } from '@/components/Groups'
+import { CreateGroupForm } from '@/components/groups'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'

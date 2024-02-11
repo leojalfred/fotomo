@@ -1,8 +1,6 @@
-import { SignUpForm } from '@/components/Auth'
+import { SignUpForm } from '@/components/auth'
 import { isAuthorized } from '@/lib/utils'
-import { MoveRight } from 'lucide-react'
 import { cookies } from 'next/headers'
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function Register() {

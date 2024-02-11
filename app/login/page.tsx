@@ -1,4 +1,4 @@
-import { LogInForm } from '@/components/Auth'
+import { LogInForm } from '@/components/auth'
 import { isAuthorized } from '@/lib/utils'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'

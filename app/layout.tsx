@@ -1,5 +1,5 @@
 import './globals.css'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
