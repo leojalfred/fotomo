@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserDTO } from '@/data/user'
+import { ProfileDTO } from '@/data/profile'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
@@ -27,10 +27,10 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface CreateGroupFormProps {
-  user: UserDTO
+  profile: ProfileDTO
 }
 
-export function CreateGroupForm({ user }: CreateGroupFormProps) {
+export function CreateGroupForm({ profile }: CreateGroupFormProps) {
   const form = useForm<z.infer<typeof createGroupSchema>>({
     resolver: zodResolver(createGroupSchema),
     defaultValues: {
@@ -55,7 +55,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
           <div>
             <Image
               className="rounded-full bg-primary"
-              src="/avatar.svg"
+              src={profile.avatarUrl ?? '/avatar.svg'}
               alt="Placeholder avatar"
               width={40}
               height={40}
@@ -63,7 +63,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
             />
           </div>
           <div>
-            <p className="text-sm">{user.email}</p>
+            <p className="text-sm">{profile.email ?? 'Current user'}</p>
             <p className="text-sm text-muted-foreground">Admin</p>
           </div>
         </div>

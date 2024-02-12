@@ -1,15 +1,15 @@
 import { CreateGroupForm } from '@/components/groups'
 import { Container } from '@/components/ui/layout'
-import { getUser } from '@/data/user'
+import { getProfile } from '@/data/profile'
 import { redirect } from 'next/navigation'
 
 export default async function Groups() {
-  const user = await getUser()
-  if (!user) redirect('/login')
+  const profile = await getProfile()
+  if (!profile) redirect('/login')
 
   return (
     <Container className="max-w-md">
-      <CreateGroupForm user={user} />
+      <CreateGroupForm profile={profile} />
     </Container>
   )
 }
