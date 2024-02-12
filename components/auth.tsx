@@ -109,6 +109,8 @@ export function SignUpForm() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      givenName: '',
+      familyName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -126,10 +128,44 @@ export function SignUpForm() {
       </h1>
       <div className="space-y-6">
         <p className="text-sm text-muted-foreground">
-          Enter your email and choose a password to get started
+          Enter your information and sign up to get started
         </p>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(action)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="givenName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="John"
+                      autoComplete="given-name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="familyName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Doe"
+                      autoComplete="family-name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -171,7 +207,7 @@ export function SignUpForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>Confirm password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"

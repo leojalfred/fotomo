@@ -24,12 +24,13 @@ export async function signUp(
   const origin = headers().get('origin')
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  const { email, password } = parsedCredentials.data
+  const { givenName, familyName, email, password } = parsedCredentials.data
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
+      data: { email, given_name: givenName, family_name: familyName },
       emailRedirectTo: `${origin}/auth/callback`,
     },
   })
