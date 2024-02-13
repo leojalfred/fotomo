@@ -2,8 +2,5 @@
   "experimentalTernaries": true,
   "semi": false,
   "singleQuote": true,
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
-  ]
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

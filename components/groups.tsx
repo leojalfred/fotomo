@@ -24,9 +24,9 @@ import { searchProfiles } from '@/lib/actions'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { set, z } from 'zod'
+import { z } from 'zod'
 
 interface CreateGroupFormProps {
   authenticatedProfile: ProfileDTO
