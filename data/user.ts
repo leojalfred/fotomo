@@ -13,7 +13,7 @@ export async function getUser(): Promise<UserDTO | null> {
     data: { user },
     error,
   } = await supabase.auth.getUser()
-  if (error) console.log(error)
+  if (error) console.error(error)
 
   return !!user ? { email: user.email } : null
 }

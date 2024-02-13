@@ -17,7 +17,7 @@ export async function getProfile() {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser()
-  if (userError) console.log(userError)
+  if (userError) console.error(userError)
   if (!user) return null
 
   const { data: profile, error: profileError } = await supabase
@@ -25,7 +25,7 @@ export async function getProfile() {
     .select()
     .eq('id', user?.id)
     .maybeSingle()
-  if (profileError) console.log(profileError)
+  if (profileError) console.error(profileError)
 
   return profile ? (camelCase(profile) as ProfileDTO) : null
 }
@@ -36,7 +36,7 @@ export async function getProfiles(search?: string) {
   if (search) query.ilike('email', `%${search}%`)
 
   const { data: profiles, error } = await query
-  if (error) console.log(error)
+  if (error) console.error(error)
 
   return profiles ?
       profiles.map((profile) => camelCase(profile) as ProfileDTO)

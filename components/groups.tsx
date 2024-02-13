@@ -135,7 +135,7 @@ export function CreateGroupForm({
                     name="accessLevel"
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger aria-label={'View access level'}>
                         <SelectValue placeholder="Determine view access" />
                       </SelectTrigger>
                     </FormControl>
@@ -178,6 +178,7 @@ export function CreateGroupForm({
                       setIsUninitiated(false)
                     }}
                     isUninitiated={isUninitiated}
+                    label="Members"
                     ref={null}
                   />
                   <FormMessage />

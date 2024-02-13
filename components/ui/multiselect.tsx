@@ -1,4 +1,3 @@
-import { useFormField } from './form'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,6 +7,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command'
+import { useFormField } from '@/components/ui/form'
 import {
   Popover,
   PopoverContent,
@@ -30,6 +30,7 @@ interface MultiSelectProps {
   placeholder?: string
   onSearch?: React.FormEventHandler<HTMLDivElement>
   isUninitiated?: boolean
+  label?: string
   ref?: React.Ref<HTMLButtonElement>
 }
 
@@ -41,13 +42,14 @@ function MultiSelect({
   placeholder,
   onSearch,
   isUninitiated,
+  label,
   ...props
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false)
+  const { formItemId } = useFormField()
   const handleUnselect = (item: string) => {
     onChange(selected.filter((i) => i !== item))
   }
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
   const commandGroupClasses = cn('max-h-64 overflow-auto', {
     hidden: isUninitiated,
   })
@@ -62,12 +64,7 @@ function MultiSelect({
           className={`w-full justify-between px-3 active:translate-y-0 ${selected.length > 1 ? 'h-full' : 'h-10'}`}
           onClick={() => setOpen(!open)}
           id={formItemId}
-          aria-describedby={
-            !error ?
-              `${formDescriptionId}`
-            : `${formDescriptionId} ${formMessageId}`
-          }
-          aria-invalid={!!error}
+          aria-label={label}
         >
           <div className="flex flex-wrap gap-1">
             {selected.length === 0 && placeholder && (

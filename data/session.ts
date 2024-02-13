@@ -13,7 +13,7 @@ export async function getSession(): Promise<SessionDTO> {
     data: { session },
     error,
   } = await supabase.auth.getSession()
-  if (error) console.log(error)
+  if (error) console.error(error)
 
   return { isAuthenticated: !!session }
 }
