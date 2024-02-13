@@ -11,7 +11,7 @@ export interface ProfileDTO {
   avatarUrl: string
 }
 
-export async function getProfile() {
+export async function getProfile(): Promise<ProfileDTO | null> {
   const supabase = createClient(cookies())
   const {
     data: { user },
@@ -20,14 +20,13 @@ export async function getProfile() {
   if (userError) console.error(userError)
   if (!user) return null
 
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select()
-    .eq('id', user?.id)
-    .maybeSingle()
-  if (profileError) console.error(profileError)
-
-  return profile ? (camelCase(profile) as ProfileDTO) : null
+  return {
+    id: user.id,
+    email: user.user_metadata.email,
+    givenName: user.user_metadata.given_name,
+    familyName: user.user_metadata.family_name,
+    avatarUrl: user.user_metadata.avatar_url,
+  }
 }
 
 export async function getProfiles(search?: string) {
