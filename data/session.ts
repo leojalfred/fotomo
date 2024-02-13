@@ -11,7 +11,9 @@ export async function getSession(): Promise<SessionDTO> {
   const supabase = createClient(cookieStore)
   const {
     data: { session },
+    error,
   } = await supabase.auth.getSession()
+  if (error) console.log(error)
 
   return { isAuthenticated: !!session }
 }

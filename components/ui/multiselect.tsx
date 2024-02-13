@@ -28,6 +28,8 @@ interface MultiSelectProps {
   onChange: React.Dispatch<React.SetStateAction<string[]>>
   className?: string
   placeholder?: string
+  onSearch?: React.FormEventHandler<HTMLDivElement>
+  isUninitiated?: boolean
   ref?: React.Ref<HTMLButtonElement>
 }
 
@@ -37,15 +39,18 @@ function MultiSelect({
   onChange,
   className,
   placeholder,
+  onSearch,
+  isUninitiated,
   ...props
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false)
-
   const handleUnselect = (item: string) => {
     onChange(selected.filter((i) => i !== item))
   }
-
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+  const commandGroupClasses = cn('max-h-64 overflow-auto', {
+    hidden: isUninitiated,
+  })
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -98,11 +103,14 @@ function MultiSelect({
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command className={className}>
-          <CommandInput placeholder="Search ..." />
+      <PopoverContent className="w-full p-0" onChange={onSearch}>
+        <Command className={className} shouldFilter={!onSearch}>
+          <CommandInput
+            placeholder="Search ..."
+            isUninitiated={isUninitiated}
+          />
           <CommandEmpty>No item found.</CommandEmpty>
-          <CommandGroup className="max-h-64 overflow-auto">
+          <CommandGroup className={commandGroupClasses}>
             {options.map((option) => (
               <CommandItem
                 key={option.value}

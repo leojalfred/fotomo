@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { MultiSelect } from '@/components/ui/multiselect'
+import { MultiSelect, OptionType } from '@/components/ui/multiselect'
 import {
   Select,
   SelectContent,
@@ -20,17 +20,23 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ProfileDTO } from '@/data/profile'
+import { searchProfiles } from '@/lib/actions'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { set, z } from 'zod'
 
 interface CreateGroupFormProps {
-  profile: ProfileDTO
+  authenticatedProfile: ProfileDTO
+  profiles: ProfileDTO[] | null
 }
 
-export function CreateGroupForm({ profile }: CreateGroupFormProps) {
+export function CreateGroupForm({
+  authenticatedProfile,
+  profiles,
+}: CreateGroupFormProps) {
   const form = useForm<z.infer<typeof createGroupSchema>>({
     resolver: zodResolver(createGroupSchema),
     defaultValues: {
@@ -40,6 +46,19 @@ export function CreateGroupForm({ profile }: CreateGroupFormProps) {
       members: [],
     },
   })
+
+  const [memberOptions, setMemberOptions] = useState<OptionType[]>([])
+  const transformProfileDTOsToOptions = useCallback(
+    (profiles: ProfileDTO[] | null) =>
+      profiles
+        ?.filter((profile) => profile.id !== authenticatedProfile.id)
+        ?.map((profile) => ({
+          value: profile.email,
+          label: profile.email,
+        })) ?? [],
+    [authenticatedProfile.id],
+  )
+  const [isUninitiated, setIsUninitiated] = useState(true)
 
   return (
     <div className="rounded-xl border bg-card p-6 text-card-foreground shadow">
@@ -55,7 +74,7 @@ export function CreateGroupForm({ profile }: CreateGroupFormProps) {
           <div>
             <Image
               className="rounded-full bg-primary"
-              src={profile.avatarUrl ?? '/avatar.svg'}
+              src={authenticatedProfile.avatarUrl ?? '/avatar.svg'}
               alt="Placeholder avatar"
               width={40}
               height={40}
@@ -63,7 +82,7 @@ export function CreateGroupForm({ profile }: CreateGroupFormProps) {
             />
           </div>
           <div>
-            <p className="text-sm">{profile.email ?? 'Current user'}</p>
+            <p className="text-sm">{authenticatedProfile.email}</p>
             <p className="text-sm text-muted-foreground">Admin</p>
           </div>
         </div>
@@ -142,39 +161,23 @@ export function CreateGroupForm({ profile }: CreateGroupFormProps) {
                   <FormLabel>Members</FormLabel>
                   <MultiSelect
                     selected={field.value}
-                    options={[
-                      {
-                        value: 'next.js',
-                        label: 'Next.js',
-                      },
-                      {
-                        value: 'sveltekit',
-                        label: 'SvelteKit',
-                      },
-                      {
-                        value: 'nuxt.js',
-                        label: 'Nuxt.js',
-                      },
-                      {
-                        value: 'remix',
-                        label: 'Remix',
-                      },
-                      {
-                        value: 'astro',
-                        label: 'Astro',
-                      },
-                      {
-                        value: 'wordpress',
-                        label: 'WordPress',
-                      },
-                      {
-                        value: 'express.js',
-                        label: 'Express.js',
-                      },
-                    ]}
+                    options={memberOptions}
                     {...field}
                     className="sm:w-[510px]"
                     placeholder="Add members"
+                    onSearch={async (
+                      data: React.ChangeEvent<HTMLInputElement>,
+                    ) => {
+                      const searchedProfiles = await searchProfiles(
+                        data.target.value,
+                      )
+
+                      setMemberOptions(
+                        transformProfileDTOsToOptions(searchedProfiles),
+                      )
+                      setIsUninitiated(false)
+                    }}
+                    isUninitiated={isUninitiated}
                     ref={null}
                   />
                   <FormMessage />

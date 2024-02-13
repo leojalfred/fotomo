@@ -11,7 +11,9 @@ export async function getUser(): Promise<UserDTO | null> {
   const supabase = createClient(cookieStore)
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser()
+  if (error) console.log(error)
 
   return !!user ? { email: user.email } : null
 }

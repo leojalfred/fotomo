@@ -15,11 +15,9 @@ export const signUpSchema = logInSchema
     familyName: z
       .string()
       .min(1, { message: 'Last name must contain at least 1 character' }),
-    confirmPassword: z
-      .string()
-      .min(8, {
-        message: 'Confirm password must contain at least 8 characters',
-      }),
+    confirmPassword: z.string().min(8, {
+      message: 'Confirm password must contain at least 8 characters',
+    }),
   })
   .refine(({ password, confirmPassword }) => password === confirmPassword, {
     message: 'Password and confirm password must match',
@@ -27,8 +25,10 @@ export const signUpSchema = logInSchema
   })
 
 export const createGroupSchema = z.object({
-  name: z.string().min(1),
+  name: z
+    .string()
+    .min(1, { message: 'Group name must contain at least 1 character' }),
   description: z.string().optional(),
   accessLevel: z.literal('private').or(z.literal('public')),
-  members: z.array(z.string()),
+  members: z.array(z.string().email()),
 })
