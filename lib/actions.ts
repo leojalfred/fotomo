@@ -1,6 +1,6 @@
 'use server'
 
-import { getProfiles } from '@/data/profile'
+import { getUsers } from '@/data/user'
 import { logInSchema, signUpSchema } from '@/lib/schemas'
 import { createClient } from '@/utils/supabase/server'
 import { cookies, headers } from 'next/headers'
@@ -79,6 +79,6 @@ export async function logOut() {
   redirect('/login')
 }
 
-export async function searchProfiles(search: string) {
-  return getProfiles(search)
+export async function searchUsers(search: string) {
+  return getUsers(search)
 }

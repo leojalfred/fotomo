@@ -19,8 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ProfileDTO } from '@/data/profile'
-import { searchProfiles } from '@/lib/actions'
+import { UserDTO } from '@/data/user'
+import { searchUsers } from '@/lib/actions'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
@@ -29,14 +29,10 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface CreateGroupFormProps {
-  authenticatedProfile: ProfileDTO
-  profiles: ProfileDTO[] | null
+  user: UserDTO
 }
 
-export function CreateGroupForm({
-  authenticatedProfile,
-  profiles,
-}: CreateGroupFormProps) {
+export function CreateGroupForm({ user }: CreateGroupFormProps) {
   const form = useForm<z.infer<typeof createGroupSchema>>({
     resolver: zodResolver(createGroupSchema),
     defaultValues: {
@@ -48,15 +44,15 @@ export function CreateGroupForm({
   })
 
   const [memberOptions, setMemberOptions] = useState<OptionType[]>([])
-  const transformProfileDTOsToOptions = useCallback(
-    (profiles: ProfileDTO[] | null) =>
-      profiles
-        ?.filter((profile) => profile.id !== authenticatedProfile.id)
-        ?.map((profile) => ({
-          value: profile.email,
-          label: profile.email,
+  const transformUserDTOsToOptions = useCallback(
+    (users: UserDTO[] | null) =>
+      users
+        ?.filter((current) => current.id !== user.id)
+        ?.map((user) => ({
+          value: user.email,
+          label: user.email,
         })) ?? [],
-    [authenticatedProfile.id],
+    [user.id],
   )
   const [isUninitiated, setIsUninitiated] = useState(true)
 
@@ -74,7 +70,7 @@ export function CreateGroupForm({
           <div>
             <Image
               className="rounded-full bg-primary"
-              src={authenticatedProfile.avatarUrl ?? '/avatar.svg'}
+              src={user.avatarUrl ?? '/avatar.svg'}
               alt="Placeholder avatar"
               width={40}
               height={40}
@@ -82,7 +78,7 @@ export function CreateGroupForm({
             />
           </div>
           <div>
-            <p className="text-sm">{authenticatedProfile.email}</p>
+            <p className="text-sm">{user.email}</p>
             <p className="text-sm text-muted-foreground">Admin</p>
           </div>
         </div>
@@ -168,12 +164,9 @@ export function CreateGroupForm({
                     onSearch={async (
                       data: React.ChangeEvent<HTMLInputElement>,
                     ) => {
-                      const searchedProfiles = await searchProfiles(
-                        data.target.value,
-                      )
-
+                      const searchedUsers = await searchUsers(data.target.value)
                       setMemberOptions(
-                        transformProfileDTOsToOptions(searchedProfiles),
+                        transformUserDTOsToOptions(searchedUsers),
                       )
                       setIsUninitiated(false)
                     }}
