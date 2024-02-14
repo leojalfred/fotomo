@@ -20,7 +20,7 @@ create table public.group_members (
   role_id uuid not null references public.roles on delete cascade,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  
+
   primary key (group_id, user_id)
 );
 
@@ -47,9 +47,15 @@ begin
 end;
 $$;
 
+create policy "Users can create new groups"
+  on public.groups
+  for insert
+  using ( auth.uid() = id );
+
 create policy "Admins can manage their groups"
   on public.groups
-  for all using (
+  for all
+  using (
     id in (
       select private.get_groups_for_authenticated_user('admin')
     )
@@ -57,7 +63,8 @@ create policy "Admins can manage their groups"
 
 create policy "Contributors can access their groups"
   on public.groups
-  for select using (
+  for select
+  using (
     id in (
       select private.get_groups_for_authenticated_user('contributor')
     )
@@ -65,15 +72,22 @@ create policy "Contributors can access their groups"
 
 create policy "Viewers can access their groups"
   on public.groups
-  for select using (
+  for select
+  using (
     id in (
       select private.get_groups_for_authenticated_user('viewer')
     )
   );
 
+create policy "Users can add new group members"
+  on public.group_members
+  for insert
+  using ( auth.uid() = id );
+
 create policy "Admins can manage group members for their groups"
   on public.group_members
-  for all using (
+  for all
+  using (
     group_id in (
       select private.get_groups_for_authenticated_user('admin')
     )
@@ -81,7 +95,8 @@ create policy "Admins can manage group members for their groups"
 
 create policy "Contributors can view group members in their groups"
   on public.group_members
-  for select using (
+  for select
+  using (
     group_id in (
       select private.get_groups_for_authenticated_user('contributor')
     )
@@ -89,7 +104,8 @@ create policy "Contributors can view group members in their groups"
 
 create policy "Viewers can view group members in their groups"
   on public.group_members
-  for select using (
+  for select
+  using (
     group_id in (
       select private.get_groups_for_authenticated_user('viewer')
     )

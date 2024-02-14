@@ -100,7 +100,6 @@ export async function createGroup(
   }
 
   const { name, description, accessLevel, members } = parsedData.data
-
   const groupToCreate: GroupToCreate = {
     name,
     description,
