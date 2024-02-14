@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { AlertCircle, Info } from 'lucide-react'
 import * as React from 'react'
 
 const alertVariants = cva(
@@ -55,4 +56,29 @@ const AlertDescription = React.forwardRef<
 ))
 AlertDescription.displayName = 'AlertDescription'
 
-export { Alert, AlertTitle, AlertDescription }
+interface AlertErrorProps {
+  message: string
+}
+
+const AlertError = ({ message }: AlertErrorProps) => (
+  <Alert variant="destructive">
+    <AlertCircle size={16} />
+    <AlertTitle>Error</AlertTitle>
+    <AlertDescription>{message}</AlertDescription>
+  </Alert>
+)
+
+interface AlertInfoProps {
+  heading: string
+  message: string
+}
+
+const AlertInfo = ({ heading, message }: AlertInfoProps) => (
+  <Alert>
+    <Info size={16} />
+    <AlertTitle>{heading}</AlertTitle>
+    <AlertDescription>{message}</AlertDescription>
+  </Alert>
+)
+
+export { Alert, AlertDescription, AlertError, AlertInfo, AlertTitle }

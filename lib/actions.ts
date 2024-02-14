@@ -1,7 +1,8 @@
 'use server'
 
-import { getUsers } from '@/data/user'
-import { logInSchema, signUpSchema } from '@/lib/schemas'
+import { GroupToCreate, Groups } from '@/data/groups'
+import { getUsers } from '@/data/users'
+import { createGroupSchema, logInSchema, signUpSchema } from '@/lib/schemas'
 import { createClient } from '@/utils/supabase/server'
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -81,4 +82,39 @@ export async function logOut() {
 
 export async function searchUsers(search: string) {
   return getUsers(search)
+}
+
+export async function createGroup(
+  _: ActionState,
+  data: z.infer<typeof createGroupSchema>,
+): Promise<ActionState> {
+  const parsedData = createGroupSchema.safeParse(data)
+  const errorActionState: ActionState = {
+    type: 'error',
+    message: 'Could not create group',
+  }
+
+  if (!parsedData.success) {
+    console.error(parsedData.error)
+    return errorActionState
+  }
+
+  const { name, description, accessLevel, members } = parsedData.data
+
+  const groupToCreate: GroupToCreate = {
+    name,
+    description,
+    private: accessLevel !== 'public',
+  }
+
+  try {
+    await Groups.create(groupToCreate, members)
+  } catch (error) {
+    return errorActionState
+  }
+
+  return {
+    type: 'info',
+    message: `Your group, ${name}, was created successfully`,
+  }
 }

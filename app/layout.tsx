@@ -1,9 +1,9 @@
-import './globals.css'
 import Navigation from '@/components/navigation'
-import { getSession } from '@/data/session'
+import { getSession } from '@/data/sessions'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
+import './globals.css'
 
 const defaultUrl =
   process.env.VERCEL_URL ?

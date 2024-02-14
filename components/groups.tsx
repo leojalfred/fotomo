@@ -1,5 +1,6 @@
 'use client'
 
+import { AlertError, AlertInfo } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,12 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserDTO } from '@/data/user'
-import { searchUsers } from '@/lib/actions'
+import { UserDTO } from '@/data/users'
+import { createGroup, searchUsers } from '@/lib/actions'
 import { createGroupSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useCallback, useState } from 'react'
+import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -33,6 +35,7 @@ interface CreateGroupFormProps {
 }
 
 export function CreateGroupForm({ user }: CreateGroupFormProps) {
+  const [state, action] = useFormState(createGroup, {})
   const form = useForm<z.infer<typeof createGroupSchema>>({
     resolver: zodResolver(createGroupSchema),
     defaultValues: {
@@ -83,7 +86,7 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
           </div>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(console.log)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(action)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -183,6 +186,10 @@ export function CreateGroupForm({ user }: CreateGroupFormProps) {
             </Button>
           </form>
         </Form>
+        {state.message &&
+          (state.type === 'info' ?
+            <AlertInfo heading="Success!" message={state.message} />
+          : <AlertError message={state.message} />)}
       </div>
     </div>
   )

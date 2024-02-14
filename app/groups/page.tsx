@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button'
 import { Container } from '@/components/ui/layout'
-import { getSession } from '@/data/session'
+import { getSession } from '@/data/sessions'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'

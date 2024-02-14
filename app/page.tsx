@@ -1,5 +1,5 @@
 import { Container } from '@/components/ui/layout'
-import { getSession } from '@/data/session'
+import { getSession } from '@/data/sessions'
 import { redirect } from 'next/navigation'
 
 export default async function Dashboard() {

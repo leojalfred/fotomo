@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertError, AlertInfo } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { logIn, signUp } from '@/lib/actions'
 import { logInSchema, signUpSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AlertCircle, MoveRight } from 'lucide-react'
+import { MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export function LogInForm() {
-  const [state, action] = useFormState(logIn, { message: '' })
+  const [state, action] = useFormState(logIn, {})
   const form = useForm<z.infer<typeof logInSchema>>({
     resolver: zodResolver(logInSchema),
     defaultValues: {
@@ -83,13 +83,7 @@ export function LogInForm() {
             </Button>
           </form>
         </Form>
-        {state.message && (
-          <Alert variant="destructive">
-            <AlertCircle size={16} />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{state.message}</AlertDescription>
-          </Alert>
-        )}
+        {state.message && <AlertError message={state.message} />}
         <p className="text-center text-sm text-muted-foreground">
           Need an account?{' '}
           <Link
@@ -105,7 +99,7 @@ export function LogInForm() {
 }
 
 export function SignUpForm() {
-  const [state, action] = useFormState(signUp, { type: 'info', message: '' })
+  const [state, action] = useFormState(signUp, {})
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -225,15 +219,10 @@ export function SignUpForm() {
             </Button>
           </form>
         </Form>
-        {state.message && (
-          <Alert variant={state.type === 'error' ? 'destructive' : 'default'}>
-            <AlertCircle size={16} />
-            <AlertTitle>
-              {state.type === 'error' ? 'Error' : 'Heads up!'}
-            </AlertTitle>
-            <AlertDescription>{state.message}</AlertDescription>
-          </Alert>
-        )}
+        {state.message &&
+          (state.type === 'error' ?
+            <AlertError message={state.message} />
+          : <AlertInfo heading="Heads up!" message={state.message} />)}
         <p className="text-center text-sm text-muted-foreground">
           Have an account?{' '}
           <Link

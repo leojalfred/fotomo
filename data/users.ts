@@ -8,7 +8,7 @@ export interface UserDTO {
   email: string
   givenName: string
   familyName: string
-  avatarUrl?: string
+  avatarUrl: string | null
 }
 
 export async function getUser(): Promise<UserDTO | null> {
