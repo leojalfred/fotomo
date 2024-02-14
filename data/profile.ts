@@ -8,7 +8,7 @@ export interface ProfileDTO {
   email: string
   givenName: string
   familyName: string
-  avatarUrl: string
+  avatarUrl?: string
 }
 
 export async function getProfile(): Promise<ProfileDTO | null> {
@@ -38,6 +38,9 @@ export async function getProfiles(search?: string) {
   if (error) console.error(error)
 
   return profiles ?
-      profiles.map((profile) => camelCase(profile) as ProfileDTO)
+      profiles.map((profile) => {
+        const parsedProfile: ProfileDTO = camelCase(profile)
+        return parsedProfile
+      })
     : []
 }
